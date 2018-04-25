@@ -1,0 +1,26 @@
+{
+  "name": "book-db",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "npm-run-all": "^4.1.2",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-redux": "^5.0.7",
+    "react-scripts": "1.1.4",
+    "redux": "^4.0.0"
+  },
+  "scripts": {
+    "start": "npm-run-all -p watch-css start-js",
+    "start-js": "react-scripts start",
+    "watch-css": "yarn build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "build": "npm-run-all build-css build-js",
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "node-sass": "^4.8.3",
+    "node-sass-chokidar": "^1.2.2"
+  }
+}
