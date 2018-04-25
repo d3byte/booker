@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80px" height="80px" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Add icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Главная---покой" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-293.000000, -460.000000)" opacity="0.6">
+        <g id="Book" transform="translate(220.000000, 374.000000)" fill="#595959">
+            <g id="Add-icon" transform="translate(73.000000, 86.000000)">
+                <rect id="Rectangle-7" x="0" y="35.047619" width="80" height="9.9047619"></rect>
+                <rect id="Rectangle-7" transform="translate(40.000000, 40.000000) rotate(90.000000) translate(-40.000000, -40.000000) " x="0" y="35.047619" width="80" height="9.9047619"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
