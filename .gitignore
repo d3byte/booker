@@ -1,1 +1,6 @@
+.DS_Store
 node_modules
+src/**/*.css
+
+yarn-error.log
+src/pages/Home/style.css
