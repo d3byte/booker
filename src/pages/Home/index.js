@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
+import { addBook, filterBooks } from '../../redux/actions'
 import './style.css'
 import Footer from '../../components/Footer'
 import logo from '../../assets/logo.png'
 import addIcon from '../../assets/add.svg'
 import bookExample from '../../assets/book-example.png'
 
-export default class Home extends Component {
+class Home extends Component {
   constructor() {
     super()
     this.state = {
@@ -19,14 +21,10 @@ export default class Home extends Component {
       },
       newBookIsValid: false,
       books: [],
+      booksToShow: [],
       chooseFilter: true,
-      filters: [
-        {
-          id: 0,
-          name: 'Regular',
-          color: '#D8D8D8'
-        },
-      ],
+      filters: [],
+      currentFilter: {}
     }
   }
 
@@ -37,7 +35,12 @@ export default class Home extends Component {
       newBook: {
         name: '',
         description: '',
-        image: ''
+        image: '',
+        category: {
+          color: "#D8D8D8",
+          id: 0,
+          name: "none"
+        }
       }
     })
   }
@@ -87,7 +90,7 @@ export default class Home extends Component {
   }
 
   addNewBook = () => {
-    const { newBook, newBookIsValid, books } = this.state
+    const { newBook, newBookIsValid, books, currentFilter } = this.state
     if (newBookIsValid) {
       // Change Redux state here
       this.setState({ 
@@ -95,17 +98,40 @@ export default class Home extends Component {
         newBook: {
           name: '',
           description: '',
-          image: ''
+          image: '',
+          category: {
+            color: "#D8D8D8",
+            id: 0,
+            name: "none"
+          }
         },
         newBookIsValid: false,
         showModal: false, 
       })
+      this.props.addBook({ ...newBook, id: books.length })
+      this.props.filterBooks(currentFilter)
     }
   }
+  
+  componentWillReceiveProps = nextProps => {
+    const { filters, books } = nextProps
+    this.setState({ 
+      books: books.books, booksToShow: books.booksToShow, 
+      filters: filters.filters, currentFilter: filters.currentFilter 
+    })
+  }
+  
 
+  componentWillMount = () => {
+    const { books, filters } = this.props
+    this.setState({ 
+      books: books.books, booksToShow: books.books, 
+      filters: filters.filters, currentFilter: filters.currentFilter 
+    })
+  }
 
   render() {
-    const { showModal, newBook, newBookIsValid, books, filters, chooseFilter } = this.state
+    const { showModal, newBook, newBookIsValid, booksToShow, filters, chooseFilter } = this.state
     return (
       <div className={'home ' + (showModal ? 'modal-is-active' : '')}>
         <img src={logo} className="logo" alt="Logo" />
@@ -116,7 +142,7 @@ export default class Home extends Component {
               <img src={addIcon} alt="Add book" />
             </div>
             {
-              books.map(book => (
+              booksToShow.map(book => (
                 <div key={book.id} className="book">
                   <div className="category" style={{ background: book.category.color }}>
                     <span>{book.category.name}</span>
@@ -211,3 +237,24 @@ export default class Home extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  books: {
+    books: state.books.books,
+    booksToShow: state.books.booksToShow
+  },
+  filters: {
+    filters: state.filters.filters,
+    currentFilter: state.filters.currentFilter
+  }
+})
+
+const mapDispatchToProps = dispatch => ({
+  addBook: book => dispatch(addBook(book)),
+  filterBooks: filter => dispatch(filterBooks(filter))
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home)

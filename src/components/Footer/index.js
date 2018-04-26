@@ -1,32 +1,19 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
+import { addFilter, filterBooks } from '../../redux/actions'
 import './style.css'
 
-export default class Footer extends Component {
+class Footer extends Component {
   constructor() {
     super()
     this.state = {
       chooseFilter: false,
       creatingFilter: false,
       newFilter: {},
-      currentFilter: {
-        id: 0,
-        name: 'none',
-        color: ''
-      },
+      currentFilter: {},
       colorInputNotSupported: false,
-      filters: [
-        {
-          id: 0,
-          name: 'none',
-          color: ''
-        },
-        {
-          id: 1,
-          name: 'Intelligence',
-          color: '#FFADC6'
-        },
-      ],
+      filters: [],
       colors: [
         {
           id: 0,
@@ -80,6 +67,7 @@ export default class Footer extends Component {
   
   selectFilter = filter => {
     this.setState({ chooseFilter: false, currentFilter: filter })
+    this.props.filterBooks(filter)
   }
 
   changeNewFilterInfo = (info, changingColor = false) => {
@@ -99,6 +87,7 @@ export default class Footer extends Component {
       filters: [...filters, newFilter],
       creatingFilter: false
     })
+    this.props.addFilter(newFilter)
   }
 
   componentDidMount = () => {
@@ -108,6 +97,8 @@ export default class Footer extends Component {
 
   componentWillMount = () => {
     // Checking if input[type="color"] is supported by a user`s browser
+    const { filters } = this.props
+    this.setState({ filters: filters.filters, currentFilter: filters.currentFilter })
     let input = document.createElement("input")
     input.type = "color"
     if (input.type !== "color") {
@@ -131,7 +122,7 @@ export default class Footer extends Component {
                   Filter:
                   {
                     chooseFilter && reversedFilters.map(filter => filter.id === 0 ? (
-                      <span className="filter none" onClick={() => this.selectFilter(filter)}>
+                      <span key={0} className="filter none" onClick={() => this.selectFilter(filter)}>
                         none
                       </span>
                     ) : (
@@ -205,3 +196,17 @@ export default class Footer extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  filters: state.filters
+})
+
+const mapDispatchToProps = dispatch => ({
+  addFilter: filter => dispatch(addFilter(filter)),
+  filterBooks: filter => dispatch(filterBooks(filter))
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Footer)
