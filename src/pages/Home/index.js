@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import './style.css'
+import Footer from '../../components/Footer'
 import logo from '../../assets/logo.png'
 import addIcon from '../../assets/add.svg'
 import bookExample from '../../assets/book-example.png'
@@ -32,6 +33,7 @@ export default class Home extends Component {
             </div>
           </div>
         </div>
+        <Footer/>
       </div>
     )
   }

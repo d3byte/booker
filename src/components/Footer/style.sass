@@ -1,0 +1,31 @@
+footer
+    width: 100%
+    background: white
+    border-top: 1px solid #e0e0e0
+    padding: 10px 0
+    &.fixed
+        position: fixed
+        left: 0
+        bottom: 0
+    .wrapper
+        display: flex
+        align-items: center
+        justify-content: space-between
+        width: 80%
+        margin: 0 auto
+        .filters
+            font-family: 'ProximaNova-Regular', sans-serif
+            font-size: 20px
+            .filter
+                font-family: 'ProximaNova-Light', sans-serif
+                margin-left: 10px
+                &:hover
+                    cursor: pointer
+                &.none
+                    text-decoration: underline
+        & > i
+            opacity: 0.6
+            transition: 0.3s
+            &:hover
+                cursor: pointer
+                opacity: 0.8
