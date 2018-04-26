@@ -11,19 +11,52 @@ export default class Home extends Component {
     super()
     this.state = {
       showModal: false,
-      newBook: {}
+      newBook: {
+        name: '',
+        description: '',
+        image: '',
+        category: {}
+      },
+      newBookIsValid: false,
+      books: [],
+      chooseFilter: true,
+      filters: [
+        {
+          id: 0,
+          name: 'Regular',
+          color: '#D8D8D8'
+        },
+      ],
     }
   }
 
   toggleModal = () => {
     const { showModal } = this.state
-    this.setState({ showModal: !showModal, newBook: {} })
+    this.setState({ 
+      showModal: !showModal, 
+      newBook: {
+        name: '',
+        description: '',
+        image: ''
+      }
+    })
   }
 
   changeNewBookInfo = e => {
     const { newBook } = this.state
     const { name, value } = e.target
-    this.setState({ newBook: { ...newBook, [name]: value } })
+    let changedNewBook = { ...newBook, [name]: value }
+    this.setState({ newBook: changedNewBook })
+    this.validateNewBook(changedNewBook)
+  }
+
+  validateNewBook = book => {
+    let newBookIsValid = true
+    for (let key in book) {
+      if (book[key] === '' && book[key] !== {})
+        newBookIsValid = false
+    }
+    this.setState({ newBookIsValid })
   }
 
   uploadImage = e => {
@@ -34,13 +67,45 @@ export default class Home extends Component {
     const { newBook } = this.state
     const reader = new FileReader()
     reader.onload = async e => {
-      this.setState({ newBook: { ...newBook, image: e.target.result } })  
+      const changedNewBook = { ...newBook, image: e.target.result }
+      this.setState({ newBook: changedNewBook })  
+      this.validateNewBook(changedNewBook)
     }
     reader.readAsDataURL(file)
   }
+  
+  startSelectingFilters = () => {
+    const { chooseFilter } = this.state
+    this.setState({ chooseFilter: !chooseFilter })
+  }
+  
+  selectFilter = filter => {
+    const { newBook } = this.state
+    const changedNewBook = { ...newBook, category: filter }
+    this.setState({ newBook: changedNewBook, chooseFilter: false })  
+    this.validateNewBook(changedNewBook)
+  }
+
+  addNewBook = () => {
+    const { newBook, newBookIsValid, books } = this.state
+    if (newBookIsValid) {
+      // Change Redux state here
+      this.setState({ 
+        books: [...books, { ...newBook, id: books.length }], 
+        newBook: {
+          name: '',
+          description: '',
+          image: ''
+        },
+        newBookIsValid: false,
+        showModal: false, 
+      })
+    }
+  }
+
 
   render() {
-    const { showModal, newBook } = this.state
+    const { showModal, newBook, newBookIsValid, books, filters, chooseFilter } = this.state
     return (
       <div className={'home ' + (showModal ? 'modal-is-active' : '')}>
         <img src={logo} className="logo" alt="Logo" />
@@ -50,20 +115,24 @@ export default class Home extends Component {
             <div className="book new" onClick={this.toggleModal}>
               <img src={addIcon} alt="Add book" />
             </div>
-            <div className="book">
-              <div className="category">
-                <span>Intelligence</span>
-              </div>
-              <div className="image">
-                <img src={bookExample} alt="Book placeholder" />
-              </div>
-              <div className="info">
-                <span className="name">Вспомнить всё</span>
-                <p className="description">
-                  Практическое руководство по развитию памяти
-                </p>
-              </div>
-            </div>
+            {
+              books.map(book => (
+                <div key={book.id} className="book">
+                  <div className="category" style={{ background: book.category.color }}>
+                    <span>{book.category.name}</span>
+                  </div>
+                  <div className="image">
+                    <img src={book.image} alt="Book placeholder" />
+                  </div>
+                  <div className="info">
+                    <span className="name">{book.name}</span>
+                    <p className="description">
+                      {book.description}
+                    </p>
+                  </div>
+                </div>
+              ))
+            }
           </div>
         </div>
         <Footer/>
@@ -108,6 +177,32 @@ export default class Home extends Component {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className="modal-footer">
+                <div className="filters">
+                
+                  {
+                    chooseFilter ? filters.map(filter => (
+                      <div 
+                        key={filter.id} 
+                        className="filter" 
+                        style={{ background: filter.color }}
+                        onClick={() => this.selectFilter(filter)}
+                      >
+                        {filter.name}
+                      </div>
+                    )) : (
+                      <div 
+                        className="filter" 
+                        style={{ background: newBook.category.color }}
+                        onClick={this.startSelectingFilters}
+                      >
+                        {newBook.category.name}
+                      </div>
+                    )
+                  }
+                </div>
+                <button onClick={this.addNewBook} className={'flat ' + (newBookIsValid ? 'blue' : '')}>Add</button>
               </div>
             </div>
           )

@@ -15,6 +15,8 @@ div {
   padding: 80px 0;
   margin: 0 auto; }
   .home.modal-is-active {
+    min-height: none !important;
+    max-height: 100vh !important;
     height: 100vh !important;
     overflow: hidden; }
   .home .books {
@@ -52,7 +54,7 @@ div {
           opacity: 0.8; }
       .home .books .book .image {
         padding: 0;
-        object-fit: fill; }
+        height: 130px; }
         .home .books .book .image img {
           width: 100%;
           height: 100%; }
@@ -102,6 +104,21 @@ input.line-based {
       opacity: 0.6; }
     input.line-based:focus:-ms-input-placeholder {
       opacity: 0.6; }
+
+button.flat {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: #595959;
+  margin: 0 auto;
+  text-transform: uppercase;
+  transition: 0.3s; }
+  button.flat:focus {
+    outline: none; }
+  button.flat:hover {
+    cursor: pointer; }
+  button.flat.blue {
+    color: #0090C1; }
 
 .modal-overlay {
   position: absolute;
@@ -154,6 +171,17 @@ input.line-based {
             opacity: 0.4; }
     .modal .modal-body .left {
       margin-right: 8%; }
+  .modal .modal-footer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 15px; }
+    .modal .modal-footer .filters {
+      margin-bottom: 15px; }
+      .modal .modal-footer .filters .filter {
+        font-size: 16px; }
+        .modal .modal-footer .filters .filter:first-of-type {
+          margin-left: 0; }
 
 .image-upload {
   position: relative;
@@ -185,6 +213,27 @@ input.line-based {
     z-index: 10001; }
     .image-upload input:hover {
       cursor: pointer; }
+
+.filters {
+  display: flex;
+  align-items: center;
+  font-family: 'ProximaNova-Regular', sans-serif;
+  font-size: 20px;
+  overflow-x: scroll; }
+  .filters .filter {
+    font-family: 'ProximaNova-Light', sans-serif;
+    text-transform: capitalize;
+    margin-left: 15px;
+    padding: 5px 10px;
+    border-radius: 8px; }
+    .filters .filter:hover {
+      cursor: pointer; }
+    .filters .filter.none {
+      padding: 0;
+      border-radius: 0;
+      text-transform: lowercase; }
+      .filters .filter.none.active {
+        text-decoration: underline; }
 
 @media (max-width: 1130px) {
   .home .books .book {
