@@ -14,18 +14,107 @@ footer
         width: 80%
         margin: 0 auto
         .filters
+            display: flex
+            align-items: center
             font-family: 'ProximaNova-Regular', sans-serif
             font-size: 20px
+            overflow-x: scroll
             .filter
                 font-family: 'ProximaNova-Light', sans-serif
-                margin-left: 10px
+                text-transform: capitalize
+                margin-left: 15px
+                padding: 5px 10px
+                border-radius: 8px
                 &:hover
                     cursor: pointer
                 &.none
-                    text-decoration: underline
-        & > i
+                    padding: 0
+                    border-radius: 0
+                    text-transform: lowercase
+                    &.active
+                        text-decoration: underline
+        i
             opacity: 0.6
             transition: 0.3s
             &:hover
                 cursor: pointer
                 opacity: 0.8
+        & > i
+            margin-left: 20px
+    .new-filter
+        display: flex
+        align-items: center
+        justify-content: space-between
+        width: 100%
+        button
+            background: transparent
+            outline: none
+            border: none
+            padding: 0
+            &:hover
+                cursor: pointer
+            i
+                opacity: 0.4
+        .left, .right
+            display: flex
+            align-items: center
+            input
+                margin-left: 30px
+        .colors
+            display: flex
+            align-items: center
+            margin-right: 30px
+            .color
+                width: 24px
+                height: 24px
+                border-radius: 8px
+                margin-right: 15px
+                border: 1px solid transparent
+                &.selected
+                    border-color: #595959
+                &:hover
+                    cursor: pointer
+            .color-input
+                position: relative
+                margin-right: 30px
+                input
+                    position: absolute
+                    top: 0
+                    left: 0
+                    border: none
+                    margin: 0
+                    width: 100%
+                    height: 100%
+                    opacity: 0
+                    z-index: 100
+                    &:hover
+                        cursor: pointer
+                i
+                    z-index: 99
+
+@media (max-width: 900px)
+    .new-filter
+        flex-direction: column
+        align-items: flex-start !important
+        .left, .right
+            flex-direction: column
+            align-items: flex-start !important
+        .left
+            margin-bottom: 15px
+            i
+                margin-bottom: 15px
+            input
+                margin-left: 0 !important
+        .right > button
+                margin-top: 15px
+    .home
+        padding-bottom: 250px
+
+@media (max-width: 440px)
+    .new-filter 
+        width: 100%
+        overflow: scroll
+        &::-webkit-scrollbar
+            display: none
+
+
