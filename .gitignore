@@ -2,5 +2,7 @@
 node_modules
 src/**/*.css
 
+build
+
 yarn-error.log
 src/pages/Home/style.css
