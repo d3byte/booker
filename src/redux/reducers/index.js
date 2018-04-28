@@ -1,3 +1,7 @@
+import CacheManager from '../../cache'
+
+const cache = new CacheManager()
+
 const initialState = {
     filters: [{
         color: "#D8D8D8",
@@ -13,29 +17,39 @@ const initialState = {
     booksToShow: []
 }
 
+let newState
+
 const reducer = (state = initialState, action) => {
     switch(action.type) {
         case 'ADD_FILTER':
-            return {
+            newState = {
                 ...state,
                 filters: [...state.filters, action.filter]
             }
+            cache.writeData('state', newState)
+            return newState
         case 'ADD_BOOK':
-            return {
+            newState = {
                 ...state,
                 books: [...state.books, action.book]
             }
+            cache.writeData('state', newState)
+            return newState
         case 'FILTER_BOOKS':
-            return {
+            newState = {
                 ...state,
                 booksToShow: state.books.filter(book => {
                     // book.category.id === action.filter.id
                     if (action.filter.id !== 0)
                         return book.category.id === action.filter.id
                     return true
-                })
+                }),
+                currentFilter: action.filter
             }
+            cache.writeData('state', newState)
+            return newState
         case 'REFRESH_STATE':
+            console.log('Refreshing', action.state)
             return action.state
         default:
             return state

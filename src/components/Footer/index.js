@@ -90,6 +90,11 @@ class Footer extends Component {
     this.props.addFilter(newFilter)
   }
 
+  componentWillReceiveProps = nextProps => {
+    const { filters, currentFilter } = nextProps
+    this.setState({ filters, currentFilter })
+  }
+
   componentDidMount = () => {
     const { filters } = this.state
     this.setState({ newFilter: { id: filters.length, name: '', color: '#D8D8D8' } })

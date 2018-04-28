@@ -14,6 +14,6 @@ export const filterBooks = filter => ({
 })
 
 export const refreshState = state => ({
-    type: 'FILTER_BOOKS',
+    type: 'REFRESH_STATE',
     state
 })

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { addBook, filterBooks, refreshState } from '../../redux/actions'
+import CacheManager from '../../cache'
 import './style.css'
 import Footer from '../../components/Footer'
 import logo from '../../assets/logo.png'
@@ -25,6 +26,7 @@ class Home extends Component {
       filters: [],
       currentFilter: {}
     }
+    this.cache = new CacheManager()
   }
 
   toggleModal = () => {
@@ -111,6 +113,16 @@ class Home extends Component {
       this.props.filterBooks(currentFilter)
     }
   }
+
+  refreshState = async () => {
+    const oldState = await this.cache.readData('state')
+    if (!oldState) {
+      const { books, booksToShow, filters, currentFilter } = this.state
+      this.cache.writeData('state', { books, booksToShow, filters, currentFilter })
+      return
+    }
+    this.props.refreshState(oldState)
+  }
   
   componentWillReceiveProps = nextProps => {
     const { books, booksToShow, filters, currentFilter } = nextProps
@@ -121,6 +133,7 @@ class Home extends Component {
   componentWillMount = () => {
     const { books, booksToShow, filters, currentFilter } = this.props
     this.setState({ books, booksToShow, filters, currentFilter })
+    this.refreshState()
   }
 
   render() {
