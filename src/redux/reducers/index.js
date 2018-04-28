@@ -1,5 +1,3 @@
-import { combineReducers } from 'redux'
-
 const initialState = {
     filters: [{
         color: "#D8D8D8",
@@ -15,20 +13,13 @@ const initialState = {
     booksToShow: []
 }
 
-const filters = (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
     switch(action.type) {
         case 'ADD_FILTER':
             return {
                 ...state,
                 filters: [...state.filters, action.filter]
             }
-        default:
-            return state
-    }  
-}
-
-const books = (state = initialState, action) => {
-    switch(action.type) {
         case 'ADD_BOOK':
             return {
                 ...state,
@@ -39,18 +30,16 @@ const books = (state = initialState, action) => {
                 ...state,
                 booksToShow: state.books.filter(book => {
                     // book.category.id === action.filter.id
-                    console.log('FILTERING',book)
                     if (action.filter.id !== 0)
                         return book.category.id === action.filter.id
                     return true
                 })
             }
+        case 'REFRESH_STATE':
+            return action.state
         default:
             return state
     }
 }
 
-export default combineReducers({
-    filters, 
-    books
-})
+export default reducer

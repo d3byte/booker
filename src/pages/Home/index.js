@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { addBook, filterBooks } from '../../redux/actions'
+import { addBook, filterBooks, refreshState } from '../../redux/actions'
 import './style.css'
 import Footer from '../../components/Footer'
 import logo from '../../assets/logo.png'
 import addIcon from '../../assets/add.svg'
-import bookExample from '../../assets/book-example.png'
 
 class Home extends Component {
   constructor() {
@@ -114,20 +113,14 @@ class Home extends Component {
   }
   
   componentWillReceiveProps = nextProps => {
-    const { filters, books } = nextProps
-    this.setState({ 
-      books: books.books, booksToShow: books.booksToShow, 
-      filters: filters.filters, currentFilter: filters.currentFilter 
-    })
+    const { books, booksToShow, filters, currentFilter } = nextProps
+    this.setState({ books, booksToShow, filters, currentFilter })
   }
   
 
   componentWillMount = () => {
-    const { books, filters } = this.props
-    this.setState({ 
-      books: books.books, booksToShow: books.books, 
-      filters: filters.filters, currentFilter: filters.currentFilter 
-    })
+    const { books, booksToShow, filters, currentFilter } = this.props
+    this.setState({ books, booksToShow, filters, currentFilter })
   }
 
   render() {
@@ -239,19 +232,16 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => ({
-  books: {
-    books: state.books.books,
-    booksToShow: state.books.booksToShow
-  },
-  filters: {
-    filters: state.filters.filters,
-    currentFilter: state.filters.currentFilter
-  }
+  books: state.books,
+  booksToShow: state.booksToShow,
+  filters: state.filters,
+  currentFilter: state.currentFilter
 })
 
 const mapDispatchToProps = dispatch => ({
   addBook: book => dispatch(addBook(book)),
-  filterBooks: filter => dispatch(filterBooks(filter))
+  filterBooks: filter => dispatch(filterBooks(filter)),
+  refreshState: state => dispatch(refreshState(state))
 })
 
 export default connect(

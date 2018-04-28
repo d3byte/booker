@@ -97,8 +97,8 @@ class Footer extends Component {
 
   componentWillMount = () => {
     // Checking if input[type="color"] is supported by a user`s browser
-    const { filters } = this.props
-    this.setState({ filters: filters.filters, currentFilter: filters.currentFilter })
+    const { filters, currentFilter } = this.props
+    this.setState({ filters, currentFilter })
     let input = document.createElement("input")
     input.type = "color"
     if (input.type !== "color") {
@@ -198,7 +198,8 @@ class Footer extends Component {
 }
 
 const mapStateToProps = state => ({
-  filters: state.filters
+  filters: state.filters,
+  currentFilter: state.currentFilter
 })
 
 const mapDispatchToProps = dispatch => ({
