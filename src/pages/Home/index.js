@@ -117,6 +117,7 @@ class Home extends Component {
   refreshState = async () => {
     const oldState = await this.cache.readData('state')
     if (!oldState) {
+      // If oldState is null, save it locally
       const { books, booksToShow, filters, currentFilter } = this.state
       this.cache.writeData('state', { books, booksToShow, filters, currentFilter })
       return
