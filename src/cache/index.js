@@ -10,3 +10,4 @@ export default class CacheManager  {
     
     clear = () => localforage.clear()
 }
+

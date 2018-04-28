@@ -49,7 +49,6 @@ const reducer = (state = initialState, action) => {
             cache.writeData('state', newState)
             return newState
         case 'REFRESH_STATE':
-            console.log('Refreshing', action.state)
             return action.state
         default:
             return state
