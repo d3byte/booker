@@ -36,6 +36,7 @@ const reducer = (state = initialState, action) => {
             cache.writeData('state', newState)
             return newState
         case 'FILTER_BOOKS':
+            console.log(action)
             newState = {
                 ...state,
                 booksToShow: state.books.filter(book => {
