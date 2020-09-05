@@ -22,7 +22,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "node-sass": "^4.8.3",
+    "node-sass": "^4.13.1",
     "node-sass-chokidar": "^1.2.2"
   }
 }
